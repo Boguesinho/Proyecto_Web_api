@@ -19,7 +19,10 @@ class CreateCuentasTable extends Migration
             $table->foreign('idUsuario')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('nombre');
-            $table->string('pais');
+
+            $table->unsignedBigInteger('idPais');
+            $table->foreign('idPais')->references('id')->on('paises');
+
             $table->integer('edad');
             $table->string('genero', 100)->nullable()->default('Prefiero no decirlo');
             $table->string('info')->nullable();

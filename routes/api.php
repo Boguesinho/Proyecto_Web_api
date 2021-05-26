@@ -7,3 +7,6 @@ use App\Http\Controllers\UserController;
 Route::post('register', [UserController::class, 'register']);    // registro usuario
 Route::post('login', [UserController::class, 'authenticate']); //login
 
+Route::group(['middleware' => ['jwt.verify']], function() {
+
+});

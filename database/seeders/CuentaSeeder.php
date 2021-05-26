@@ -18,7 +18,7 @@ class CuentaSeeder extends Seeder
         $cuenta = new Cuenta();
         $cuenta->idUsuario = 1;
         $cuenta->nombre = 'Luis Rodrigo';
-        $cuenta->pais = 'México';
+        $cuenta->idPais = 1; //México
         $cuenta->edad = 21;
         $cuenta->genero = 'Masculino';
         $cuenta->info = 'Info prueba user 1';
@@ -27,7 +27,7 @@ class CuentaSeeder extends Seeder
         $cuenta = new Cuenta();
         $cuenta->idUsuario = 2;
         $cuenta->nombre = 'Alejandro';
-        $cuenta->pais = 'México';
+        $cuenta->idPais = 1;
         $cuenta->edad = 22;
         $cuenta->genero = 'Masculino';
         $cuenta->info = 'Info prueba user 2';
@@ -36,7 +36,7 @@ class CuentaSeeder extends Seeder
         $cuenta = new Cuenta();
         $cuenta->idUsuario = 3;
         $cuenta->nombre = 'Cesar';
-        $cuenta->pais = 'México';
+        $cuenta->idPais = 1;
         $cuenta->edad = 22;
         $cuenta->genero = 'Masculino';
         $cuenta->info = 'Info prueba user 3';
