@@ -18,7 +18,7 @@ class CreateUsuarioInteresTable extends Migration
             $table->unsignedBigInteger('idUsuario');
             $table->unsignedBigInteger('idInteres');
 
-            $table->foreign('idUsuario')->references('id')->on('usuarios');
+            $table->foreign('idUsuario')->references('id')->on('users');
             $table->foreign('idInteres')->references('id')->on('intereses');
         });
     }

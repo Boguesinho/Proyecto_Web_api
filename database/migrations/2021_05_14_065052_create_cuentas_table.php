@@ -16,14 +16,17 @@ class CreateCuentasTable extends Migration
         Schema::create('cuentas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idUsuario')->unique();
-            $table->foreign('idUsuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('idUsuario')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('nombre');
-            $table->string('pais');
+
+            $table->unsignedBigInteger('idPais');
+            $table->foreign('idPais')->references('id')->on('paises');
+
             $table->integer('edad');
             $table->string('genero', 100)->nullable()->default('Prefiero no decirlo');
             $table->string('info')->nullable();
-            $table->string('rutaFoto');
+            $table->string('rutaFoto')->nullable();
 
             $table->timestamps();
         });
