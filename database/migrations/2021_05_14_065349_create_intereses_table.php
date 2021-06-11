@@ -16,6 +16,7 @@ class CreateInteresesTable extends Migration
         Schema::create('intereses', function (Blueprint $table) {
             $table->id();
             $table->string('nomInteres');
+            //$table->timestamps();
         });
     }
 
