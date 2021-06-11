@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
-    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Support\Facades\Storage;
     use JWTAuth;
     use Auth;
     use Tymon\JWTAuth\Exceptions\JWTException;
@@ -45,45 +45,76 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-            $validator = Validator::make($request->all(), [
+        $request->validate([
             'email' => 'required|email|max:255',
             'password' => 'required|string|min:6',
             'nombre' => 'required|string',
-                'pais' => 'required|string',
-                'edad' => 'required|int',
-            'genero' => 'required|string',
+            'idPais' => 'required|integer',
+            'edad' => 'required|integer',
+            'idGenero' => 'required|integer',
             'info' => 'string',
-                'rutaFoto' => 'string'
         ]);
 
-        if($validator->fails()){
-                return response()->json($validator->errors()->toJson(), 400);
+        if($request->fails()){
+                return response()->json($request->errors()->toJson(), 400);
         }
 
         $user = User::create([
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'nombre' =>$request->input('nombre'),
+            'idPais'=> $request->input('idPais'),
+            'edad' => $request->input('edad'),
+            'idGenero' => $request->input('idGenero'),
+            'info'=> $request->input('info'),
         ]);
 
+        /*
         $rules = [
 
         ];
         $this->validate($request, $rules);
-
-        $cuenta = new Cuenta();
-        $cuenta->idUsuario = $user->id;
-        $cuenta->nombre = $request->input('nombre');
-        $cuenta->pais = $request->input('pais');
-        $cuenta->edad = $request->input('edad');
-        $cuenta->genero = $request->input('genero');
-        $cuenta->info = $request->input('info');
-
-        $cuenta->save(); //INSERT
+        */
 
         $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('user','cuenta', 'token'),201);
+        return response()->json(compact('user', 'token'),201);
     }
+
+    public function subirFotoPerfil(Request $request){  //Arreglar
+
+        $rules = [
+            'rutaFoto'=>'required|image|mimes:jpeg,png,jpg|max:2048'
+        ];
+        $this->validate($request, $rules);
+
+        $usuario = User::find($request->user()->id);
+
+        if($request->hasFile("rutaFoto")){
+            if($usuario->rutaFoto == null){
+                $usuario->rutafoto = $request->file('rutaFoto')->store('public/imagen');
+                $usuario->update($request->all());
+                return response()->json([
+                    'message' => 'Foto de perfil NUEVA guardada con éxito'
+                ]);
+
+            }
+            else{
+                Storage::delete($usuario->rutaFoto);
+                $usuario->rutaFoto =  $request->file('rutaFoto')->store('public/imagen');
+                $usuario->update($request->all());
+                return response()->json([
+                    'message' => 'Foto de perfil ACTUALIZADA con éxito'
+                ]);
+            }
+        }
+        else{
+            return response()->json([
+                'message' => 'Ocurrió un error, intentar de nuevo'
+            ]);
+        }
+
+    }
+
     public function logout(){
 
         Auth::guard('api')->logout();

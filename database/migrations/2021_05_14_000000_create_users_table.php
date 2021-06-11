@@ -12,6 +12,15 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('nombre');
+            $table->unsignedBigInteger('idPais');
+            $table->foreign('idPais')->references('id')->on('paises');
+            $table->integer('edad');
+            $table->unsignedBigInteger('idGenero');
+            $table->foreign('idGenero')->references('id')->on('generos');
+            $table->string('info')->nullable();
+            $table->string('rutaFoto')->nullable();
+
             $table->timestamps();
         });
     }

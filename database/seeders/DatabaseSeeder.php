@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Interes;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsuarioSeeder::class);
         $this->call(PaisSeeder::class);
-        $this->call(CuentaSeeder::class);
+        $this->call(GeneroSeeder::class);
+        $this->call(InteresSeeder::class);
+        $this->call(UsuarioSeeder::class);
     }
 }
