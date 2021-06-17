@@ -59,9 +59,11 @@ class UserController extends Controller
             'info' => 'string',
         ]);
 
+        /*
         if($request->fails()){
                 return response()->json($request->errors()->toJson(), 400);
         }
+        */
 
         $user = User::create([
             'email' => $request->input('email'),
