@@ -49,37 +49,5 @@ class InteresController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Interes  $interes
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Interes $interes)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Interes  $interes
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Interes $interes)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Interes  $interes
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Interes $interes)
-    {
-        //
-    }
 }
