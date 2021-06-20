@@ -59,12 +59,6 @@ class UserController extends Controller
             'info' => 'string',
         ]);
 
-        /*
-        if($request->fails()){
-                return response()->json($request->errors()->toJson(), 400);
-        }
-        */
-
         $user = User::create([
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
@@ -94,7 +88,7 @@ class UserController extends Controller
 
         if($request->hasFile("rutaFoto")){
             if($usuario->rutaFoto == null){
-                $usuario->rutafoto = $request->file('rutaFoto')->store('public/imagen');
+                $usuario->rutaFoto = $request->file('rutaFoto')->store('public/imagen');
                 $usuario->update($request->all());
                 return response()->json([
                     'message' => 'Foto de perfil NUEVA guardada con éxito'
