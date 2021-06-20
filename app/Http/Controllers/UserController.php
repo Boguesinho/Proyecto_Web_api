@@ -91,7 +91,7 @@ class UserController extends Controller
 
         if($request->hasFile("rutaFoto")){
             if($usuario->rutaFoto == null){
-                $usuario->rutafoto = $request->file('rutaFoto')->store('public/imagen');
+                $usuario->rutaFoto = $request->file('rutaFoto')->store('public/imagen');
                 $usuario->update($request->all());
                 return response()->json([
                     'message' => 'Foto de perfil NUEVA guardada con éxito'
