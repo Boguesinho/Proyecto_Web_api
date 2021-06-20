@@ -3,83 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function chat_with(Request $request, User $user)
     {
-        //
+        $user_a = $request->user()->id;
+        $user_b = $user;
+        $chat = $user_a->chats()->wherehas('users', function ($q) use ($user_b) {
+            $q->where('chat.idUsuario2', $user_b->id);
+        })->first();
+
+        if(!$chat){
+            $chat = Chat::create([]);
+            $chat->users()->sync([$user_a->id, $user_b->id]);
+        }
+
+        return $chat;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function mostrarChats(Request $request, Chat $chat)
     {
-        //
+        abort_unless($chat->users->contains($request->user()->id), 403);
+        return $chat; //Lista de mis chats
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function get_users(Chat $chat){
+        $users = $chat->users;
+        return response()->json([
+            'users' => $users
+        ]);
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Chat $chat)
-    {
-        //
-    }
+    public function get_messages(Chat $chat){
+        $messages = $chat->messages()->with('user')->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Chat $chat)
-    {
-        //
-    }
+        return response()->json([
+            'messages' => $messages
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Chat $chat)
-    {
-        //
     }
 }

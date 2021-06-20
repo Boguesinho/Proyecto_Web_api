@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
     use App\Models\Cuenta;
+    use App\Models\Genero;
+    use App\Models\Interes;
+    use App\Models\Pais;
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
     use Illuminate\Support\Facades\Storage;
     use JWTAuth;
     use Auth;
+    use mysql_xdevapi\Exception;
     use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
@@ -55,10 +59,6 @@ class UserController extends Controller
             'info' => 'string',
         ]);
 
-        if($request->fails()){
-                return response()->json($request->errors()->toJson(), 400);
-        }
-
         $user = User::create([
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
@@ -68,19 +68,16 @@ class UserController extends Controller
             'idGenero' => $request->input('idGenero'),
             'info'=> $request->input('info'),
         ]);
-
-        /*
-        $rules = [
-
-        ];
-        $this->validate($request, $rules);
-        */
-
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user', 'token'),201);
     }
 
-    public function subirFotoPerfil(Request $request){  //Arreglar
+    public function getInfoPersonal(Request $request){
+        $user = User::find($request->user()->id);
+        return $user;
+    }
+
+    public function subirFotoPerfil(Request $request){
 
         $rules = [
             'rutaFoto'=>'required|image|mimes:jpeg,png,jpg|max:2048'
@@ -96,7 +93,6 @@ class UserController extends Controller
                 return response()->json([
                     'message' => 'Foto de perfil NUEVA guardada con éxito'
                 ]);
-
             }
             else{
                 Storage::delete($usuario->rutaFoto);
@@ -112,7 +108,20 @@ class UserController extends Controller
                 'message' => 'Ocurrió un error, intentar de nuevo'
             ]);
         }
+    }
 
+    public function editInfo(Request $request){
+        $rules = [
+            'info' => 'required|string'
+        ];
+        $this->validate($request, $rules);
+
+        $user = User::find($request->user()->id);
+        $user->info = $request->input('info');
+        $user->update($request->all());
+        return response()->json([
+            'message' => 'Info editada con éxito'
+        ]);
     }
 
     public function logout(){
@@ -121,4 +130,23 @@ class UserController extends Controller
         $success = 'Sesión cerrada';
         return compact('success');
     }
+
+    //Interes
+    public function getListaInteres(){
+        return Interes::all();
+    }
+    //Pais
+    public function getListaPais(){
+        return Pais::all();
+    }
+
+    //Genero
+    public function getListaGenero(){
+        return Genero::all();
+    }
+
+    public function getUsuariosRecomendados(Request $request){
+        return User::all();
+    }
+
 }

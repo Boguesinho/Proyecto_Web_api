@@ -20,7 +20,6 @@ class CreateCalificacionesTable extends Migration
             $table->unsignedBigInteger('idUsuarioCalificado');
             $table->foreign('idUsuario')->references('id')->on('users');
             $table->foreign('idUsuarioCalificado')->references('id')->on('users');
-            $table->timestamps();
         });
     }
 

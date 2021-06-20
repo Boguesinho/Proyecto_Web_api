@@ -11,4 +11,8 @@ class Interes extends Model
 
     protected $table = 'intereses';
     public $timestamps = false;
+
+    public function users(){
+        return $this->belongsToMany('App\Models\User');
+    }
 }
