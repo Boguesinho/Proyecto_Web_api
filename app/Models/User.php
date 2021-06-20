@@ -36,6 +36,20 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function chats(){
+        return $this->belongsToMany('App\Models\Chat', 'idUsuarui');
+    }
 
+    public function mensajes(){
+        return $this->hasMany('App\Models\Mensaje', 'idUsuario');
+    }
+
+    public function calificaciones(){
+        return $this->hasMany('App\Models\Calificacion', 'idUsuarioCalificado');
+    }
+
+    public function intereses(){
+        return $this->belongsToMany('App\Models\Interes');
+    }
 
 }
