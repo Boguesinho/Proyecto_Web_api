@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Interes;
+use App\Models\User;
 use App\Models\UsuarioInteres;
 use Illuminate\Http\Request;
 
@@ -41,6 +42,11 @@ class InteresController extends Controller
             ]);
         }
 
+    }
+
+    public function getInteresesUsuario(User $idUsuario){
+        $intereses = UsuarioInteres::where('idUsuario', $idUsuario->id)->get();
+        return $intereses;
     }
 
 }
