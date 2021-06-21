@@ -49,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function intereses(){
-        return $this->belongsToMany('App\Models\Interes');
+        return $this->belongsToMany('App\Models\Interes', 'idInteres', 'idUsuario');
     }
 
 }

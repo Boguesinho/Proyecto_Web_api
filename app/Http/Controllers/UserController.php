@@ -115,7 +115,6 @@ class UserController extends Controller
             'info' => 'required|string'
         ];
         $this->validate($request, $rules);
-
         $user = User::find($request->user()->id);
         $user->info = $request->input('info');
         $user->update($request->all());
@@ -125,7 +124,6 @@ class UserController extends Controller
     }
 
     public function logout(){
-
         Auth::guard('api')->logout();
         $success = 'Sesión cerrada';
         return compact('success');
