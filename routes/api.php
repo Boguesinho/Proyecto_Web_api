@@ -17,4 +17,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('getListaGenero',[UserController::class, 'getListaGenero']);
     Route::get('getUsuariosRecomendados',[UserController::class, 'getUsuariosRecomendados']);
 
+    Route::post('agegarInteres/{idInteres}', [\App\Http\Controllers\InteresController::class, 'agegarInteres']);
+    Route::get('misIntereses', [\App\Http\Controllers\InteresController::class, 'misIntereses']);
+    Route::delete('eliminarInteres/{idInteres}',[\App\Http\Controllers\InteresController::class, 'eliminarInteres']);
 });
